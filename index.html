@@ -1,0 +1,26 @@
+<!doctype html5>
+<html>
+<head>
+	<meta enctype="utf-8">
+	<title>Contador</title>
+</head>
+<body onload="cuentaAtras(), cuentaAdelante(), cuentaReloj(), cuentaTemporizador()">
+	<div id="numeros">
+		<img src="9.png" id="cuenta"><img src="9.png" id="cuenta2"><br>
+		<img src="0.png" id="cuenta3"><img src="0.png" id="cuenta4"><img src="0.png" id="cuenta5"><br>
+	</div>
+	<div id="reloj">
+		<img src="" id="horadigito1"><img src="" id="horadigito2">
+		<img src="" id="minutodigito1"><img src="" id="minutodigito2"> 
+		<img src="" id="segundodigito1"><img src="" id="segundodigito2">
+	</div>
+	<div id="temporizador">
+		<img src="0.png" id="digito1"><img src="1.png" id="digito2">
+		<img src="0.png" id="digito3"><img src="0.png" id="digito4">
+	</div>
+	<button onclick="resetear()">Resetear</button>
+	<button onclick="pausar()">Parar</button>
+	<button onclick="continuar()">Continuar</button>
+</body>
+<script src="index.js"></script>
+</html>
