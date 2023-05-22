@@ -7,7 +7,10 @@ let intervaloCuentaAtras
 let intervaloCuentaAdelante
 let intervaloCuentaReloj
 let intervaloTemporizador
-let pausado 
+let pausadoCuentaAtras
+let pausadoCuentaAdelante
+let pausadoReloj
+let pausadoTemporizador
 let minuto = 1
 let segundoDigito1 = 0
 let segundoDigito2 = 0
@@ -16,6 +19,7 @@ function cuentaAtras() {
     // Con setInterval definimos acciones que se realizan cada cierto tiempo.
     // El tiempo se expresa en mil�simas de segundo.
     // En este caso se ejecuta marchaAtras cada segundo = 1000 milisegundos.
+    pausadoCuentaAtras = false
     intervaloCuentaAtras = setInterval(marchaAtras, 1000)
 }
 
@@ -41,7 +45,7 @@ function marchaAtras() {
 }
 
 function cuentaAdelante(){
-    pausado = false 
+    pausadoCuentaAdelante = false 
     intervaloCuentaAdelante = setInterval(marchaAdelante, 1000)
 }
 
@@ -69,46 +73,71 @@ function marchaAdelante(){
     document.getElementById("cuenta5").src = unidades + ".png"
 }
 
-function cuentaReloj(){
-    pausado = false 
-    intervaloCuentaReloj = setInterval(reloj, 1000)
-}
-
 function reloj(){
 
-    const reloj = new Date()
-    const hora = reloj.getHours().toString()
-    const minuto = reloj.getMinutes().toString()
-    const segundo = reloj.getSeconds().toString()
+    if (reloj.match(/^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/)) {
+        pausadoReloj = false 
+        let tiempoTotal = obtenerTiempoTotal(reloj)
+        mostrarContador(tiempoTotal)
+        intervaloCuentaReloj = setInterval(function() {
+                            tiempoTotal--;
+                            mostrarContador(tiempoTotal)
 
-    if (hora <= 9){
-        document.getElementById("horadigito1").src = "0.png"
-        document.getElementById("horadigito2").src = hora + ".png"
+                            if (tiempoTotal <= 0) {
+                                clearInterval()
+                                alert("¡Tiempo finalizado!")
+                            }
+                        }, 1000);
     } else {
-        document.getElementById("horadigito1").src = hora[0] + ".png"
-        document.getElementById("horadigito2").src = hora[1] + ".png"
-    }
-    if (minuto <= 9){
-        document.getElementById("minutodigito1").src = "0.png"
-        document.getElementById("minutodigito2").src = minuto + ".png"
-    } else {
-        document.getElementById("minutodigito1").src = minuto[0] + ".png"
-        document.getElementById("minutodigito2").src = minuto[1] + ".png"
-    }
-    if (segundo <= 9){
-        document.getElementById("segundodigito1").src = "0.png"
-        document.getElementById("segundodigito2").src = segundo + ".png"
-    
-    } else {
-        document.getElementById("segundodigito1").src = segundo[0] + ".png"
-        document.getElementById("segundodigito2").src = segundo[1] + ".png"
+        alert("Formato de tiempo incorrecto. Utiliza el formato HH:MM:SS")
     }
 }
 
+function obtenerTiempoTotal(reloj) {
+    let partes = reloj.split(":")
+    let horas = parseInt(partes[0])
+    let minutos = parseInt(partes[1])
+    let segundos = parseInt(partes[2])
+    let tiempoTotal = horas * 3600 + minutos * 60 + segundos
+    return tiempoTotal
+}
+
+function mostrarContador(tiempoTotal) {
+    let horas = Math.floor(tiempoTotal / 3600)
+    let minutos = Math.floor((tiempoTotal % 3600) / 60)
+    let segundos = tiempoTotal % 60
+
+    if (horas <= 9) {
+        document.getElementById("horadigito1").src = "0.png"
+        document.getElementById("horadigito2").src = horas + ".png"
+    } else {
+        let horasDigitos = horas.toString().split("");
+        document.getElementById("horadigito1").src = horasDigitos[0] + ".png"
+        document.getElementById("horadigito2").src = horasDigitos[1] + ".png"
+    }
+
+    if (minutos <= 9) {
+        document.getElementById("minutodigito1").src = "0.png"
+        document.getElementById("minutodigito2").src = minutos + ".png"
+    } else {
+        let minutosDigitos = minutos.toString().split("");
+        document.getElementById("minutodigito1").src = minutosDigitos[0] + ".png"
+        document.getElementById("minutodigito2").src = minutosDigitos[1] + ".png"
+    }
+
+    if (segundos <= 9) {
+        document.getElementById("segundodigito1").src = "0.png"
+        document.getElementById("segundodigito2").src = segundos + ".png"
+    } else {
+        let segundosDigitos = segundos.toString().split("");
+        document.getElementById("segundodigito1").src = segundosDigitos[0] + ".png"
+        document.getElementById("segundodigito2").src = segundosDigitos[1] + ".png"
+    }
+}
 
 function cuentaTemporizador(){
-    pausado = false 
-    intervaloTemporizador = setInterval(temporizador, 100)
+    pausadoTemporizador = false 
+    intervaloTemporizador = setInterval(temporizador, 1000)
 }
 
 function temporizador(){
@@ -134,28 +163,63 @@ function temporizador(){
 
 }
 
-function resetear(){
+function resetearContador1(){
     n = 0
     n2 = 0
+}
+
+function pausarContador1(){
+    clearInterval(intervaloCuentaAtras)
+    return pausadoCuentaAtras = true 
+}
+
+function continuarContador1(){
+    if(pausadoCuentaAtras){
+        cuentaAtras()
+    } else alert("No puedes continuar algo que no está pausado.")
+}
+
+function resetearContador2(){
     centenas = 10
+}
+
+function pausarContador2(){
+    clearInterval(intervaloCuentaAdelante)
+    return pausadoCuentaAdelante = true 
+}
+
+function continuarContador2(){
+    if(pausadoCuentaAdelante){
+        cuentaAdelante()
+    } else alert("No puedes continuar algo que no está pausado.")
+}
+
+function pausarReloj(){
+    clearInterval(intervaloCuentaReloj)
+    return pausadoReloj = true
+}
+
+function continuarReloj(){
+    if(pausadoReloj){
+        reloj()
+    } else alert("No puedes continuar algo que no está pausado.")
+}
+
+
+function resetearTemporizador(){
     minuto = 1
     segundoDigito1 = 0
     segundoDigito2 = 0
 }
 
-function pausar(){
-    clearInterval(intervaloCuentaAtras)
-    clearInterval(intervaloCuentaAdelante)
+function pausarTemporizador(){
     clearInterval(intervaloCuentaReloj)
-    clearInterval(intervaloTemporizador)
-    return pausado = true 
+    return pausadoTemporizador = true 
 }
 
-function continuar(){
-    if(pausado){
-        cuentaAtras()
-        cuentaAdelante()
-        cuentaReloj()
-        cuentaTemporizador()
+function continuarTemporizador(){
+    if(pausadoTemporizador){
+        reloj()
     } else alert("No puedes continuar algo que no está pausado.")
 }
+

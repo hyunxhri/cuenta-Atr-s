@@ -4,23 +4,38 @@
 	<meta enctype="utf-8">
 	<title>Contador</title>
 </head>
-<body onload="cuentaAtras(), cuentaAdelante(), cuentaReloj(), cuentaTemporizador()">
+<body onload="cuentaAtras(), cuentaAdelante(), cuentaTemporizador()">
 	<div id="numeros">
 		<img src="9.png" id="cuenta"><img src="9.png" id="cuenta2"><br>
+		<button onclick="resetearContador1()">Resetear</button>
+		<button onclick="pausarContador1()">Parar</button>
+		<button onclick="continuarContador1()">Continuar</button><br>
 		<img src="0.png" id="cuenta3"><img src="0.png" id="cuenta4"><img src="0.png" id="cuenta5"><br>
+		<button onclick="resetearContador2()">Resetear</button>
+		<button onclick="pausarContador2()">Parar</button>
+		<button onclick="continuarContador2()">Continuar</button><br>
 	</div>
-	<div id="reloj">
-		<img src="" id="horadigito1"><img src="" id="horadigito2">
-		<img src="" id="minutodigito1"><img src="" id="minutodigito2"> 
-		<img src="" id="segundodigito1"><img src="" id="segundodigito2">
+	<div id="reloj" style="font-size: 100px;display: flex;align-items: center;">
+		<img src="0.png" id="horadigito1"><img src="0.png" id="horadigito2">
+		:
+		<img src="0.png" id="minutodigito1"><img src="0.png" id="minutodigito2"> 
+		:
+		<img src="0.png" id="segundodigito1"><img src="0.png" id="segundodigito2">
+		<button onclick="pausarReloj()">Parar</button>
+		<button onclick="continuarTemporizador()">Continuar</button><br>
 	</div>
+	<form id="relojForm">
+		<label for="temporizadorNumero">Introduce el tiempo para el temporizador: </label>
+		<input type="text" id="temporizadorNumero" name="temporizadorNumero" value="HH:MM:SS">
+		<input type="submit" value="Enviar" onclick="event.preventDefault(); reloj()">
+	</form>
 	<div id="temporizador">
 		<img src="0.png" id="digito1"><img src="1.png" id="digito2">
-		<img src="0.png" id="digito3"><img src="0.png" id="digito4">
+		<img src="0.png" id="digito3"><img src="0.png" id="digito4"><br>
+		<button onclick="resetearTemporizador()">Resetear</button>
+		<button onclick="pausarTemporizador()">Parar</button>
+		<button onclick="continuarTemporizador()">Continuar</button><br>
 	</div>
-	<button onclick="resetear()">Resetear</button>
-	<button onclick="pausar()">Parar</button>
-	<button onclick="continuar()">Continuar</button>
 </body>
 <script src="index.js"></script>
 </html>
