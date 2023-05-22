@@ -5,7 +5,7 @@ let decenas = 0
 let unidades = 0
 let intervaloCuentaAtras
 let intervaloCuentaAdelante
-let intervaloCuentaReloj
+let intervaloReloj
 let intervaloTemporizador
 let pausadoCuentaAtras
 let pausadoCuentaAdelante
@@ -75,11 +75,12 @@ function marchaAdelante(){
 
 function reloj(){
 
+    let reloj = document.forms["relojForm"]["temporizadorNumero"].value
+
     if (reloj.match(/^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/)) {
-        pausadoReloj = false 
         let tiempoTotal = obtenerTiempoTotal(reloj)
         mostrarContador(tiempoTotal)
-        intervaloCuentaReloj = setInterval(function() {
+        intervaloReloj = setInterval(function() {
                             tiempoTotal--;
                             mostrarContador(tiempoTotal)
 
@@ -195,16 +196,10 @@ function continuarContador2(){
 }
 
 function pausarReloj(){
-    clearInterval(intervaloCuentaReloj)
-    return pausadoReloj = true
+    clearInterval(intervaloReloj)
+    pausadoReloj = true
+    return pausadoReloj
 }
-
-function continuarReloj(){
-    if(pausadoReloj){
-        reloj()
-    } else alert("No puedes continuar algo que no está pausado.")
-}
-
 
 function resetearTemporizador(){
     minuto = 1
@@ -213,13 +208,13 @@ function resetearTemporizador(){
 }
 
 function pausarTemporizador(){
-    clearInterval(intervaloCuentaReloj)
+    clearInterval(intervaloTemporizador)
     return pausadoTemporizador = true 
 }
 
 function continuarTemporizador(){
     if(pausadoTemporizador){
-        reloj()
+        cuentaTemporizador()
     } else alert("No puedes continuar algo que no está pausado.")
 }
 
